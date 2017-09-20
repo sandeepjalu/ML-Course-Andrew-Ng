@@ -106,7 +106,6 @@ end;
 
 % nJ = ((1/m)*(-ny'*log(a2) - (1-ny)'*log(1-a2)));
 
-
 % for c = 1:K
 	% hx = X * theta;
 	% sigmoid = arrayfun(@(t) 1/(1+1^(-t)), hx);
