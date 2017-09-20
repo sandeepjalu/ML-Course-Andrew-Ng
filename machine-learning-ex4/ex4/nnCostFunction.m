@@ -64,12 +64,70 @@ Theta2_grad = zeros(size(Theta2));
 
 
 
+%PART 1
+
+% hx = X * theta;
+
+% % sigmoid = arrayfun(@(t) 1/(1+1^(-t)), hx);
+% h = sigmoid(hx);
+
+% tempo = theta;
+% tempo(1) = 0;
+% temp = (h - y);
+% grad = (1/m)*(X'*temp) + (lambda/m)*tempo;
+
+% t_theta = theta(2:end,:);
+
+% J = (1/m)*(-y'*log(h) - (1-y)'*log(1-h)) + (lambda/(2*m))*sum(t_theta .^2);
+
+% [J grad] = lrCostFunction(theta_t, X_t, y_t, lambda_t);
+% size(X)  % 5000 x 400
+% size(Theta1) % 25 x 401
+% size(Theta2) % 10 x 26
+% size(y)
+
+K = num_labels; % 10
+tJ = zeros(K,1); % 10 x 1
+X = [ones(m, 1) X];
 
 
+a1 = sigmoid(X * Theta1');
+a1 = [ones(m, 1) a1];
+
+a2 = sigmoid(a1 * Theta2');
+ny = zeros(m,K); %5000 x 10
+for c = 1:m
+	ny(c,y(c)) = 1;
+end;
+
+for c = 1:K
+	tJ(c) = ((1/m)*(-ny(:,c)'*log(a2(:,c)) - (1-ny(:,c))'*log(1-a2(:,c))));
+end;
+
+% nJ = ((1/m)*(-ny'*log(a2) - (1-ny)'*log(1-a2)));
 
 
+% for c = 1:K
+	% hx = X * theta;
+	% sigmoid = arrayfun(@(t) 1/(1+1^(-t)), hx);
+	% size(log(a2))
+	% size(ny')
+	% size(ssa)
+	%a2 = [ones(m, 1) a2];
+	% a2size = size(a2,2); % 10
+	% size(y') %
+	% for t = 1:a2size
+	% 	% size(a2)  % 5000 x 10
+	% 	% a2size   % 10
+	% 	att = a2(:,t);
+	% 	% size(att) % 5000 x 1
+	% 	% size(y') % 1 x 5000
+	% 	tJ(c) = tJ(c) + (1/m)*(-y'*log(att) - (1-y)'*log(1-att));
+	% end;
+% end;
 
 
+J = sum(tJ)
 
 
 
