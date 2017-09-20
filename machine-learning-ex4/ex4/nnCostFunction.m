@@ -100,9 +100,14 @@ for c = 1:m
 	ny(c,y(c)) = 1;
 end;
 
+t1 = Theta1'(2:end,:); % 400 x 25
+t2 = Theta2'(2:end,:); % 25 x 10
+
 for c = 1:K
 	tJ(c) = ((1/m)*(-ny(:,c)'*log(a2(:,c)) - (1-ny(:,c))'*log(1-a2(:,c))));
 end;
+
+extra = (lambda/(2*m))*(sum(sum(t1 .^2)) + sum(sum(t2 .^2)));
 
 % nJ = ((1/m)*(-ny'*log(a2) - (1-ny)'*log(1-a2)));
 
@@ -126,7 +131,7 @@ end;
 % end;
 
 
-J = sum(tJ)
+J = sum(tJ) + extra
 
 
 
