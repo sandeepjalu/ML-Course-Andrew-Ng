@@ -118,16 +118,17 @@ z2 = [ones(m, 1) z2];
 delta_2 = (delta_3*Theta2) .* sigmoidGradient(z2);
 
 delta_2 = delta_2(:,2:end);
-big_theta2=0;
-big_theta1=0;
-big_theta2 = big_theta2+delta_3'*a2;
-big_theta1 = big_theta1+delta_2'*a1;
+tri_delta_2=0;
+tri_delta_1=0;
+tri_delta_2 = delta_3'*a2;
+tri_delta_1 = delta_2'*a1;
 
-Theta2_grad  = (1/m)*big_theta2;
-Theta1_grad = (1/m)*big_theta1;
+Theta2_grad = (1/m)*tri_delta_2 + (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];%Making first column as zeros
+Theta1_grad = (1/m)*tri_delta_1 + (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];%Making first column as zeros
 
-% size(Theta2)
+% size([zeros(size(Theta1, 1), 1) Theta1(:, 2:end)])
 % size(Theta1)
+% size(delta_3)
 % size(Theta2_grad)
 % size(Theta1_grad)
 
