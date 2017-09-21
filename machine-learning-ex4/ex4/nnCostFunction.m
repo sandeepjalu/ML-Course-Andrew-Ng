@@ -89,12 +89,14 @@ Theta2_grad = zeros(size(Theta2));
 K = num_labels; % 10
 tJ = zeros(K,1); % 10 x 1
 X = [ones(m, 1) X];
+a1 = X;
 
+z2 = X * Theta1';
+a2 = sigmoid(z2); % 5000 x 25
+a2 = [ones(m, 1) a2];
 
-a1 = sigmoid(X * Theta1');
-a1 = [ones(m, 1) a1];
-
-a2 = sigmoid(a1 * Theta2');
+z3 = a2 * Theta2';
+a3 = sigmoid(z3); % 5000 x 10
 ny = zeros(m,K); %5000 x 10
 for c = 1:m
 	ny(c,y(c)) = 1;
@@ -102,12 +104,69 @@ end;
 
 t1 = Theta1'(2:end,:); % 400 x 25
 t2 = Theta2'(2:end,:); % 25 x 10
-
 for c = 1:K
-	tJ(c) = ((1/m)*(-ny(:,c)'*log(a2(:,c)) - (1-ny(:,c))'*log(1-a2(:,c))));
+	tJ(c) = ((1/m)*(-ny(:,c)'*log(a3(:,c)) - (1-ny(:,c))'*log(1-a3(:,c))));
 end;
-
 extra = (lambda/(2*m))*(sum(sum(t1 .^2)) + sum(sum(t2 .^2)));
+
+
+
+%PART 2
+delta_3 = a3 - ny;
+z2 = [ones(m, 1) z2];
+
+delta_2 = (delta_3*Theta2) .* sigmoidGradient(z2);
+
+delta_2 = delta_2(:,2:end);
+big_theta2=0;
+big_theta1=0;
+big_theta2 = big_theta2+delta_3'*a2;
+big_theta1 = big_theta1+delta_2'*a1;
+
+Theta2_grad  = (1/m)*big_theta2;
+Theta1_grad = (1/m)*big_theta1;
+
+% size(Theta2)
+% size(Theta1)
+% size(Theta2_grad)
+% size(Theta1_grad)
+
+
+%PART 3
+
+
+
+%Theta2_grad = delta_l' * a1; % 10 x 26
+
+
+% delta_2 = delta_l * delta_l' * a_1; % should be 25 x 5000
+% size(delta_2)
+% size(a2)
+
+% size(Theta1_grad)
+% Theta1_grad = a2' * delta_2; % 10 x 25
+% size(Theta1_grad)
+% % size(Theta1_grad)
+
+% delta_1 = delta_2 * Theta1_grad'; % should be 5000 x 25
+% size(delta_1)
+% size(delta_l)
+% size(a2)
+% size(a1) 
+
+% L_in1 = size(X,1);
+% L_out1 = size(X,2)-1;
+% ep_init = sqrt(6)/(sqrt(L_in1+L_out1));
+
+% epsilon_init = 0.12;
+% W1 = rand(L_out1, 1+L_in1)*2*epsilon_init - epsilon_init;
+
+% L_in2 = size(Theta1',1)-1;
+% L_out2 = size(Theta2',2);
+% W2 = rand(L_out2, 1+L_in2)*2*epsilon_init - epsilon_init;
+
+
+
 
 % nJ = ((1/m)*(-ny'*log(a2) - (1-ny)'*log(1-a2)));
 
@@ -131,7 +190,7 @@ extra = (lambda/(2*m))*(sum(sum(t1 .^2)) + sum(sum(t2 .^2)));
 % end;
 
 
-J = sum(tJ) + extra
+J = sum(tJ) + extra;
 
 
 
