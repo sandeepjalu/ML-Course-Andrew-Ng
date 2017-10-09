@@ -16,8 +16,10 @@ sim = 0;
 %
 %
 
+x = (x1 .- x2) .^ 2;
 
-
+coff = 1/(2*sigma^2);
+sim = e^(-sum(sum(x)) * coff);
 
 
 
