@@ -20,9 +20,22 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+[m,n]=size(X);
 
-
-
+for i=1:m
+	x = X(i,:);
+	min_dis=1000000000;
+	pos=0;
+	for j=1:K
+		c = centroids(j,:);
+		dis = sqrt((x(1)-c(1))^2+(x(2)-c(2))^2);
+		if dis < min_dis
+			pos=j;
+			min_dis = dis;
+		end
+	end
+	idx(i)=pos;
+end
 
 
 
