@@ -26,10 +26,18 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
+eles_in_centroid = zeros(K,1);
+for i =1:m
+	x = X(i,:);
+	centroidPos = idx(i);
+	centroids(centroidPos,:) = centroids(centroidPos,:) + x;
+	eles_in_centroid(centroidPos) = eles_in_centroid(centroidPos) + 1;
+end
+for i = 1:K
+	if eles_in_centroid(i) > 0
+		centroids(i,:) = centroids(i,:) ./ eles_in_centroid(i);
+	end
+end
 
 
 
