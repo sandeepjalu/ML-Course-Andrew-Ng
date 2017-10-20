@@ -24,7 +24,7 @@ idx = zeros(size(X,1), 1);
 
 for i=1:m
 	x = X(i,:);
-	min_dis=1000000000;
+	min_dis=inf;
 	pos=0;
 	for j=1:K
 		c = centroids(j,:);
