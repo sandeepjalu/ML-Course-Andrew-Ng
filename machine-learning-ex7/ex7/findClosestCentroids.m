@@ -28,7 +28,8 @@ for i=1:m
 	pos=0;
 	for j=1:K
 		c = centroids(j,:);
-		dis = sqrt((x(1)-c(1))^2+(x(2)-c(2))^2);
+		% dis = (x(1)-c(1))^2+(x(2)-c(2))^2;
+		dis = sum((x-c).^2);
 		if dis < min_dis
 			pos=j;
 			min_dis = dis;
